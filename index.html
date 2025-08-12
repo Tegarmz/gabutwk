@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Form Kirim Pesan</title>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+    (function(){
+      emailjs.init("6T-E33Fr2SoJqXHZn"); // Ganti dengan Public Key EmailJS
+    })();
+  </script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    input, textarea {
+      width: 300px;
+      padding: 10px;
+      margin: 5px;
+    }
+    button {
+      padding: 10px 20px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>💌 Kirim Pesan</h2>
+  <input type="text" id="name" placeholder="Nama kamu"><br>
+  <input type="email" id="email" placeholder="Email kamu"><br>
+  <textarea id="message" placeholder="Tulis pesan di sini"></textarea><br>
+  <button onclick="sendEmail()">Kirim</button>
+
+  <script>
+    function sendEmail() {
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const message = document.getElementById("message").value.trim();
+
+      if (!name || !email || !message) {
+        alert("Lengkapi semua kolom!");
+        return;
+      }
+
+      const params = {
+        name: name,
+        email: email,
+        message: message,
+        date: new Date().toLocaleString()
+      };
+
+      emailjs.send("service_dikl4a4", "template_e9o08u1", params)
+        .then(function(response) {
+          alert("Pesan berhasil dikirim ✅");
+          document.getElementById("name").value = "";
+          document.getElementById("email").value = "";
+          document.getElementById("message").value = "";
+        }, function(error) {
+          alert("Gagal mengirim ❌: " + JSON.stringify(error));
+        });
+    }
+  </script>
+
+</body>
+</html>
